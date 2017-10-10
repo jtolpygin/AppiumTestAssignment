@@ -83,6 +83,7 @@ namespace AppiumTestAssignment
             cap.SetCapability("deviceName", "PixelAppium");
             cap.SetCapability("PlatformName", "Android");
             cap.SetCapability("PlatformVersion", "7.1.1");
+            cap.SetCapability("browserName", "Chrome");
             cap.SetCapability("appPackage", "com.android.chrome");
             cap.SetCapability("appActivity", "com.google.android.apps.chrome.Main");
 
