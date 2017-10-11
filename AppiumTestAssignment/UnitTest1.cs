@@ -27,22 +27,17 @@ namespace AppiumTestAssignment
 
             driver = new AndroidDriver<IWebElement>(new Uri("http://127.0.0.1:4723/wd/hub"), cap);
 
-            var btnThree = driver.FindElementById("com.android.calculator2:id/digit_3");
-            btnThree.Click();
-            var btnPlus = driver.FindElementById("com.android.calculator2:id/op_add");
-            btnPlus.Click();
-            var btnFour = driver.FindElementById("com.android.calculator2:id/digit_4");
-            btnFour.Click();
-            var btnEqualsTo = driver.FindElementById("com.android.calculator2:id/eq");
-            btnEqualsTo.Click();
+            CalcAppPage CalcAppPage = new CalcAppPage();
+            PageFactory.InitElements(driver, CalcAppPage);
+            CalcAppPage.btnThree.Click();
+            CalcAppPage.btnPlus.Click();
+            CalcAppPage.btnFour.Click();
+            CalcAppPage.btnEqualsTo.Click();
 
-            var result = driver.FindElementById("com.android.calculator2:id/result");
-
-            Assert.AreEqual("7", result.Text);
+            Assert.AreEqual("7", CalcAppPage.result.Text);
+            
             Console.WriteLine("sum of 3 + 4 equals 7.");
-
-            var btnClear = driver.FindElementById("com.android.calculator2:id/clr");
-            btnClear.Click();
+            CalcAppPage.btnClear.Click();
             driver.CloseApp();
         }
         [TestMethod]
@@ -98,15 +93,9 @@ namespace AppiumTestAssignment
             PageFactory.InitElements(driver, ChromeAppPage);
             ChromeAppPage.expandBtn.Click();
             ChromeAppPage.contactsLink.Click();
-            //var expandBtn = driver.FindElement(By.Id("ios_menu"));
-            //expandBtn.Click();
-            //System.Threading.Thread.Sleep(1000);
-            //var contactsLink = driver.FindElement(By.Id("menulink menu-link-6"));
-            //contactsLink.Click();
-            //System.Threading.Thread.Sleep(5000);
 
-            //Console.WriteLine("Contacts details found.");
-            //driver.CloseApp();
+            Console.WriteLine("Contacts details found.");
+            driver.CloseApp();
         }
     }
 }
