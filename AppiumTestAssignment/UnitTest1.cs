@@ -5,6 +5,8 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Appium.Enums;
+using AppiumTestAssignment.PageObject;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace AppiumTestAssignment
 {
@@ -90,16 +92,21 @@ namespace AppiumTestAssignment
             driver = new AndroidDriver<IWebElement>(new Uri("http://127.0.0.1:4723/wd/hub"), cap);
 
             driver.Navigate().GoToUrl("http://www.fob-solutions.com/");
-            System.Threading.Thread.Sleep(5000);
-            var expandBtn = driver.FindElement(By.Id("ios_menu"));
-            expandBtn.Click();
-            System.Threading.Thread.Sleep(1000);
-            var contactsLink = driver.FindElement(By.Id("menulink menu-link-6"));
-            contactsLink.Click();
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(2000);
 
-            Console.WriteLine("Contacts details found.");
-            driver.CloseApp();
+            ChromeAppPage ChromeAppPage = new ChromeAppPage();
+            PageFactory.InitElements(driver, ChromeAppPage);
+            ChromeAppPage.expandBtn.Click();
+            ChromeAppPage.contactsLink.Click();
+            //var expandBtn = driver.FindElement(By.Id("ios_menu"));
+            //expandBtn.Click();
+            //System.Threading.Thread.Sleep(1000);
+            //var contactsLink = driver.FindElement(By.Id("menulink menu-link-6"));
+            //contactsLink.Click();
+            //System.Threading.Thread.Sleep(5000);
+
+            //Console.WriteLine("Contacts details found.");
+            //driver.CloseApp();
         }
     }
 }
