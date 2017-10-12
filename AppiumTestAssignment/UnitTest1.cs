@@ -16,6 +16,8 @@ namespace AppiumTestAssignment
     public class UnitTest1
     {
         AppiumDriver<IWebElement> driver;
+        WebDriverWait wait;
+
 
         [TestMethod]
         public void AppiumTestCalculator()
@@ -49,6 +51,7 @@ namespace AppiumTestAssignment
             }
 
         }
+
         [TestMethod]
         public void AppiumTestTimer()
         {
@@ -84,8 +87,8 @@ namespace AppiumTestAssignment
                 Assert.Fail("Timer is not resets to base state.");
             }
 
-
         }
+
         [TestMethod]
         public void AppiumTestChrome()
         {
@@ -106,7 +109,6 @@ namespace AppiumTestAssignment
             ChromeAppPage.expandBtn.Click();
             ChromeAppPage.contactsLink.Click();
 
-
             Console.WriteLine("Contacts details found");
             driver.CloseApp();
         }
@@ -123,9 +125,31 @@ namespace AppiumTestAssignment
             cap.SetCapability("appActivity", "com.google.android.apps.chrome.Main");
 
             driver = new AndroidDriver<IWebElement>(new Uri("http://127.0.0.1:4723/wd/hub"), cap);
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
 
             driver.Navigate().GoToUrl("http://gmail.com/");
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+            GmailAppPage GmailAppPage = new GmailAppPage();
+            PageFactory.InitElements(driver, GmailAppPage);
+
+            IWebElement enterusernameLbl = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.enterEmail));
+            enterusernameLbl.SendKeys("jtolpygin.aut@gmail.com");
+            IWebElement nextBtn = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.btnNext));
+            nextBtn.Click();
+            IWebElement enterPasswordLbl = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.enterPassword));
+            enterPasswordLbl.Click();
+            driver.Keyboard.SendKeys("Automat10n");
+            IWebElement nextpasswordBtn = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.btnPasswordNext));
+            nextpasswordBtn.Click();
+            
+
+           
+        }
+            public void RefreshCurrentPage()
+            {
+                driver.Navigate().Refresh();
+            }
+
         }
     }
-}
+
