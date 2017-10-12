@@ -18,7 +18,6 @@ namespace AppiumTestAssignment
         AppiumDriver<IWebElement> driver;
         WebDriverWait wait;
 
-
         [TestMethod]
         public void AppiumTestCalculator()
         {
@@ -90,30 +89,6 @@ namespace AppiumTestAssignment
         }
 
         [TestMethod]
-        public void AppiumTestChrome()
-        {
-            DesiredCapabilities cap = new DesiredCapabilities();
-            cap.SetCapability("deviceName", "PixelAppium");
-            cap.SetCapability("PlatformName", "Android");
-            cap.SetCapability("PlatformVersion", "7.1.1");
-            cap.SetCapability("browserName", "Chrome");
-            cap.SetCapability("appPackage", "com.android.chrome");
-            cap.SetCapability("appActivity", "com.google.android.apps.chrome.Main");
-
-            driver = new AndroidDriver<IWebElement>(new Uri("http://127.0.0.1:4723/wd/hub"), cap);
-
-            driver.Navigate().GoToUrl("http://www.fob-solutions.com/");
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
-            ChromeAppPage ChromeAppPage = new ChromeAppPage();
-            PageFactory.InitElements(driver, ChromeAppPage);
-            ChromeAppPage.expandBtn.Click();
-            ChromeAppPage.contactsLink.Click();
-
-            Console.WriteLine("Contacts details found");
-            driver.CloseApp();
-        }
-
-        [TestMethod]
         public void AppiumGmailLogin()
         {
             DesiredCapabilities cap = new DesiredCapabilities();
@@ -128,28 +103,49 @@ namespace AppiumTestAssignment
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
 
             driver.Navigate().GoToUrl("http://gmail.com/");
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
             GmailAppPage GmailAppPage = new GmailAppPage();
             PageFactory.InitElements(driver, GmailAppPage);
 
+            //Gmail login
             IWebElement enterusernameLbl = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.enterEmail));
-            enterusernameLbl.SendKeys("jtolpygin.aut@gmail.com");
+            enterusernameLbl.SendKeys(GmailAppPage.username);
             IWebElement nextBtn = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.btnNext));
             nextBtn.Click();
             IWebElement enterPasswordLbl = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.enterPassword));
             enterPasswordLbl.Click();
-            driver.Keyboard.SendKeys("Automat10n");
+            driver.Keyboard.SendKeys(GmailAppPage.password);
             IWebElement nextpasswordBtn = wait.Until(ExpectedConditions.ElementToBeClickable(GmailAppPage.btnPasswordNext));
             nextpasswordBtn.Click();
-            
+            Thread.Sleep(7000);
 
-           
-        }
-            public void RefreshCurrentPage()
+            if (driver.Url.Contains("https://mail.google.com/mail/mu/mp/263/#tl/priority/%5Esmartlabel_personal"))
             {
-                driver.Navigate().Refresh();
+                Console.WriteLine("Login was successful.");
+                driver.CloseApp();
             }
 
+            else
+            {
+                Assert.Fail("Login was not sucessful.");
+            }
+
+
         }
+        public void RefreshCurrentPage()
+        {
+            driver.Navigate().Refresh();
+        }
+        public void LaunchAppAgain()
+        {
+            driver.LaunchApp();
+            Thread.Sleep(2000);
+            driver.Navigate().GoToUrl("http://gmail.com/");
+            Console.WriteLine("Launching App again.");
+
+        }
+
+
     }
+}
 

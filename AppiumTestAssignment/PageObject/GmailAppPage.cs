@@ -22,5 +22,8 @@ namespace AppiumTestAssignment.PageObject
 
         [FindsBy(How = How.Id, Using = "passwordNext")]
         public IWebElement btnPasswordNext { get; set; }
+
+        public string username = "jtolpygin.aut@gmail.com";
+        public string password = "Automat10n";
     }
 }
